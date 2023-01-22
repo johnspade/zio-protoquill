@@ -11,7 +11,8 @@ trait PostgresJdbcTypes[+D <: PostgresDialect, +N <: NamingStrategy] extends Jdb
   with BooleanObjectEncoding
   with UUIDObjectEncoding
   with ArrayDecoders
-  with ArrayEncoders {
+  with ArrayEncoders
+  with ArrayUUIDEncoding {
 
   val idiom: D
 

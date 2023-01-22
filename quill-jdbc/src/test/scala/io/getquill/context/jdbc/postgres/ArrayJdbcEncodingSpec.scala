@@ -35,13 +35,10 @@ class ArrayJdbcEncodingSpec extends ArrayEncodingBaseSpec {
     ctx.run(tQ).head.timestamps mustBe tE.timestamps
   }
 
-  "Custom decoders/encoders" in {
+  "UUIDs" in {
     case class Entity(uuids: List[UUID])
     val e = Entity(List(UUID.randomUUID(), UUID.randomUUID()))
     val q = quote(querySchema[Entity]("ArraysTestEntity"))
-
-    implicit def arrayUUIDEncoder[Col <: Seq[UUID]]: Encoder[Col] = arrayRawEncoder[UUID, Col]("uuid")
-    implicit def arrayUUIDDecoder[Col <: Seq[UUID]](implicit bf: CBF[UUID, Col]): Decoder[Col] = arrayRawDecoder[UUID, Col]
 
     ctx.run(q.insertValue(lift(e)))
     ctx.run(q).head.uuids mustBe e.uuids
